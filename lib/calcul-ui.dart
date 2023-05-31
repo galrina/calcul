@@ -31,7 +31,6 @@ class _CalculatorState extends State<Calculator> {
     '.',
     '=',
   ];
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -54,17 +53,17 @@ class _CalculatorState extends State<Calculator> {
         Container(
           padding: const EdgeInsets.all(20),
           alignment: Alignment.centerRight,
-          child: Text(
-            statement,
-            style: const TextStyle(fontSize: 32),
+            child: Text(
+              statement,
+              style: const TextStyle(fontSize: 32),
           ),
         ),
         Container(
           padding: const EdgeInsets.all(15),
           alignment: Alignment.centerRight,
-          child: Text(
-            result,
-            style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+            child: Text(
+              result,
+              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
           ),
         )
       ],
@@ -72,7 +71,7 @@ class _CalculatorState extends State<Calculator> {
   }
 
   Widget _buttons() {
-       return GridView.builder(
+    return GridView.builder(
       gridDelegate:
           const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
       itemBuilder: (BuildContext context, int index) {
@@ -80,21 +79,18 @@ class _CalculatorState extends State<Calculator> {
       },
       itemCount: buttons.length,
     );
-    }
-  
+  }
 
   _myButton(String text) {
     return Container(
-      margin: const EdgeInsets.all(9),
+      margin: const EdgeInsets.all(8),
       child: MaterialButton(
         onPressed: () {
           setState(() {
-            
+            handleButtonTap(text);
           });
         },
         color: _getColor(text),
-        // Color.fromARGB(255, 127, 36, 144),
-
         textColor: Colors.white,
         child: Text(
           text,
@@ -105,7 +101,38 @@ class _CalculatorState extends State<Calculator> {
     );
   }
 
-   _getColor(String text) {
+  handleButtonTap(String text) {
+    if (text == "AC") {
+      statement = "";
+      result = "0";
+      return;
+    }
+    if (text == "=") {
+      result = calculate();
+      if (result.endsWith(".0")) {
+        result = result.replaceAll(".0", "");
+      }
+      return;
+    }
+
+    if (text == "C") {
+      statement = statement.substring(0, statement.length - 1);
+      return;
+    }
+    statement = statement + text;
+  }
+
+  calculate() {
+    try {
+      var exp = Parser().parse(statement);
+      var evaluation = exp.evaluate(EvaluationType.REAL, ContextModel());
+      return evaluation.toString();
+    } catch (e) {
+      return "Err";
+    }
+  }
+
+  _getColor(String text) {
     if (text == "/" || text == "*" || text == "+" || text == "-") {
       return Colors.orangeAccent;
     }
@@ -115,6 +142,6 @@ class _CalculatorState extends State<Calculator> {
     if (text == "(" || text == ")") {
       return Colors.blueGrey;
     }
-    return Colors.purple ;
+    return Colors.purple;
   }
 }
