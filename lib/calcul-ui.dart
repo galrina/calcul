@@ -85,14 +85,16 @@ class _CalculatorState extends State<Calculator> {
 
   _myButton(String text) {
     return Container(
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(9),
       child: MaterialButton(
         onPressed: () {
           setState(() {
             
           });
         },
-        color: Colors.black12,
+        color: _getColor(text),
+        // Color.fromARGB(255, 127, 36, 144),
+
         textColor: Colors.white,
         child: Text(
           text,
@@ -103,4 +105,16 @@ class _CalculatorState extends State<Calculator> {
     );
   }
 
+   _getColor(String text) {
+    if (text == "/" || text == "*" || text == "+" || text == "-") {
+      return Colors.orangeAccent;
+    }
+    if (text == "C" || text == "AC") {
+      return Colors.deepPurple;
+    }
+    if (text == "(" || text == ")") {
+      return Colors.blueGrey;
+    }
+    return Colors.purple ;
+  }
 }
