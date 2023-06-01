@@ -1,7 +1,10 @@
+import 'package:calcul/pages/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class Calculator extends StatefulWidget {
+  const Calculator({super.key});
+
   @override
   State<Calculator> createState() => _CalculatorState();
 }
@@ -36,34 +39,65 @@ class _CalculatorState extends State<Calculator> {
     return SafeArea(
       child: Scaffold(
         body: Column(
+
           children: [
+            
+            Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: ElevatedButton(
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                     MaterialPageRoute(builder: (context)=> ConverterPage()),
+                     );
+                },
+              
+                child: const Text('Km to M'),
+              ),
+            ),
+          ),
+
             Flexible(flex: 2, child: resultWidget()),
             Expanded(flex: 4, child: _buttons()),
+          
           ],
-        ),
       ),
+    ),
     );
   }
 
+
+
+
   Widget resultWidget() {
-    return Column(
+    return 
+    Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
+        Container(padding: const EdgeInsets.all(20),
+          alignment: Alignment.topLeft,
+          child: Text(
+            statement,
+            style: const TextStyle(fontSize: 32),
+            ),
+        ),
         Container(
           padding: const EdgeInsets.all(20),
           alignment: Alignment.centerRight,
-            child: Text(
-              statement,
-              style: const TextStyle(fontSize: 32),
+          child: Text(
+            statement,
+            style: const TextStyle(fontSize: 32),
           ),
         ),
         Container(
           padding: const EdgeInsets.all(15),
           alignment: Alignment.centerRight,
-            child: Text(
-              result,
-              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+          child: Text(
+            result,
+            style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
           ),
         )
       ],
